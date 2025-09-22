@@ -15,19 +15,25 @@ const Games =
     <span>3x3</span>
     </label>
     <label>
-    <input type="radio" name="AIOrPlayer" value="AI"></button>
+    <input type="radio" name="AIOrPlayer" value="1"></button>
     <span>AI Opponent</span>
     </label>
     <label>
-    <input type="radio" name="AIOrPlayer" value="Player"></button>
+    <input type="radio" name="AIOrPlayer" value="0"></button>
     <span>2 Player</span>
     </label>
     <button onClick = "Games[0].start()">Start</button>`,
     currentChar: "X",
     size: 0,
     steps: 0,
+    AI: 0,
+    AIGrid: [],
+    GameOver: false,
     start: () =>
         {
+            Games[0].GameOver = false;
+            Games[0].AIGrid = [];
+            Games[0].AI = document.querySelector('input[name="AIOrPlayer"]:checked').value;
             const current = Games[0];
             current.currentChar = "X";
             current.size = document.querySelector('input[name="sizebtn"]:checked').value;
@@ -64,17 +70,55 @@ const Games =
             for(let i = 0; i < size*size; i++)
             {
                 let cell = document.createElement("div");
-                cell.className = "cell";
-                cell.addEventListener("click", () => {
+                cell.className = "cell"
+                cell.value = i;
+                if(Games[0].AI == 0)
+                    {
+                    cell.addEventListener("click", () => {
                     if(cell.innerHTML == "")
                         {
                             cell.innerHTML = Games[0].currentChar
-                            Games[0].swapChar()
+                            
+                            Games[0].swapChar();
                             Games[0].CheckForWin();
                         }
-                })
+                    })
+                }
+                else
+                {
+                    cell.addEventListener("click", () => {
+                    if(cell.innerHTML == "")
+                        {
+                            cell.innerHTML = Games[0].currentChar
+                            Games[0].steps++
+                            Games[0].IncrementAxis(cell.value);
+                            Games[0].CheckForWin()
+                            if(!Games[0].GameOver)
+                                {
+                                    Games[0].AITurn();
+                                };
+                        }
+                    })
+                }
                 gameArea.appendChild(cell);
             }
+            if(Games[0].AI == 1)
+                {
+                    for(let i = 0;i<Games[0].size;i++)
+                        {
+                            let row = []
+                            for(let j = 0;j<Games[0].size;j++)
+                                {
+                                    row.push(0);
+                                }
+                                //console.log(row);
+                            Games[0].AIGrid.push(row)
+                        }
+                    if(size == 3)
+                        {
+                            Games[0].AIGrid[1][1]++
+                        }
+                }
         },
         Win: () =>
         {
@@ -116,12 +160,14 @@ const Games =
                                 {
                                     alert(`X Wins!`)
                                     Games[0].Win();
+                                    Games[0].GameOver = true;
                                     return;
                                 }
                             else
                                 {
                                     alert(`O Wins!`)
                                     Games[0].Win();
+                                    Games[0].GameOver = true;
                                     return;
                                 }
                         }
@@ -144,12 +190,14 @@ const Games =
                                 {
                                     alert(`X Wins!`)
                                     Games[0].Win();
+                                    Games[0].GameOver = true;
                                     return;
                                 }
                             else
                                 {
                                     alert(`O Wins!`)
                                     Games[0].Win();
+                                    Games[0].GameOver = true;
                                     return;
                                 }
                         }
@@ -173,12 +221,14 @@ const Games =
                                 {
                                     alert(`X Wins!`)
                                     Games[0].Win();
+                                    Games[0].GameOver = true;
                                     return;
                                 }
                             else
                                 {
                                     alert(`O Wins!`)
                                     Games[0].Win();
+                                    Games[0].GameOver = true;
                                     return;
                                 }
                         }
@@ -200,12 +250,14 @@ const Games =
                                 {
                                     alert(`X Wins!`)
                                     Games[0].Win();
+                                    Games[0].GameOver = true;
                                     return;
                                 }
                             else
                                 {
                                     alert(`O Wins!`)
                                     Games[0].Win();
+                                    Games[0].GameOver = true;
                                     return;
                                 }
                         }
@@ -214,6 +266,85 @@ const Games =
                 {
                     alert("It's a Tie!")
                     Games[0].Win();
+                    Games[0].GameOver = true;
+                    return;
+                }
+        },
+        AITurn: () => 
+        {
+            let cells = document.querySelectorAll(".cell");
+            let grid = [];
+            for(let i = 0; i < Games[0].size; i++)
+                {
+                let row = [];
+                for(let j = 0; j < Games[0].size; j++)
+                {
+                    row.push(cells[i * Games[0].size + j]);
+                    if(cells[i * Games[0].size + j].innerHTML != "")
+                        {
+                            Games[0].AIGrid[i][j] = -1;
+                        }
+                }
+                grid.push(row);
+            }
+            let AllGoodMoves = [];
+            let index = [0,0]
+            let max = 0;
+            for(let i = 0;i<Games[0].size;i++)
+                {
+                    for(let j = 0;j<Games[0].size;j++)
+                    {
+                        if(Games[0].AIGrid[i][j] > max)
+                            {
+                                max = Games[0].AIGrid[i][j]
+                                AllGoodMoves = [[i,j]]
+                            }
+                        else if(Games[0].AIGrid[i][j] == max)
+                            {
+                                AllGoodMoves.push([i,j])
+                            }
+                    }
+                }
+            index = AllGoodMoves[ Math.floor(Math.random() * ((AllGoodMoves.length-1) - 0 + 1) + 0)]
+            //console.log(index)
+            grid[index[0]][index[1]].innerHTML = "O"
+            Games[0].steps++
+            Games[0].IncrementAxis(index[0]*Games[0].size + index[1])
+            Games[0].CheckForWin()
+        },
+        IncrementAxis: (index) => 
+        {
+            let MatrixValue = [];
+            MatrixValue.push(parseInt((index-index%Games[0].size)/Games[0].size))
+            MatrixValue.push(parseInt(index%Games[0].size))
+            
+            
+            for(let i = 0;i<Games[0].size;i++)
+                {
+                    //console.log(MatrixValue[0]+ "|"+ i + "   " +i +"|" +MatrixValue[1])
+                    if(Games[0].AIGrid[MatrixValue[0]][i] >= 0)
+                        {
+                            Games[0].AIGrid[MatrixValue[0]][i]++
+                        }
+                    if(Games[0].AIGrid[i][MatrixValue[1]] >= 0)
+                        {
+                            Games[0].AIGrid[i][MatrixValue[1]]++
+                        }
+                }
+            for(let i = 1; i < Games[0].size-1; i++)
+                    {
+                        if(Games[0].AIGrid[i][i] >= 0)
+                            {
+                                Games[0].AIGrid[i][i]++
+                            }
+                        if(Games[0].AIGrid[i][Games[0].size-1 -i >= 0])
+                            {
+                                Games[0].AIGrid[i][Games[0].size-1 -i]++
+                            }
+                    }
+            if(Games[0].size%2 !=1)
+                {
+                    Games[0].AIGrid[Math.round(Games[0].size/2)][Math.round(Games[0].size/2)]--
                 }
         }
     }
