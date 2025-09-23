@@ -289,9 +289,108 @@ const Games =
                     return;
                 }
         },
+        IsXWinning: () =>
+        {
+            let cells = document.querySelectorAll(".cell");
+            let grid = [];
+            for(let i = 0; i < Games[0].size; i++)
+                {
+                let row = [];
+                for(let j = 0; j < Games[0].size; j++)
+                {
+                    row.push(cells[i * Games[0].size + j]);
+                    if(cells[i * Games[0].size + j].innerHTML != "")
+                        {
+                            Games[0].AIGrid[i][j] = -1;
+                        }
+                }
+                grid.push(row);
+            }
+
+            for(let i = 0; i < Games[0].size; i++)
+                {
+                    //Check rows
+                    let temp = 0
+                    for(let j = 0; j < Games[0].size; j++)
+                        {
+                            if(grid[i][j].innerHTML == "X")
+                            {
+                                temp++;
+                            }
+                        }
+                    if(temp == Games[0].size-1)
+                        {
+                            for(let j = 0;j<Games[0].size;j++)
+                                {
+                                    if(Games[0].AIGrid[i][j]>=0)
+                                        {
+                                            Games[0].AIGrid[i][j]+=25
+                                        }
+                                }
+                        }
+                    //Check columns
+                    temp = 0
+                    for(let j = 0; j < Games[0].size; j++)
+                        {
+                            if(grid[j][i].innerHTML == "X")
+                                {
+                                    temp++;
+                                }
+                        }
+                    if(temp == Games[0].size-1)
+                        {
+                            for(let j = 0;j<Games[0].size;j++)
+                                {
+                                    if(Games[0].AIGrid[j][i] >= 0)
+                                        {
+                                            Games[0].AIGrid[j][i]+=25
+                                        }
+                                }
+                        }
+                }
+
+                //Check diagonals
+                let temp = 0
+                    for(let i = 0; i < Games[0].size; i++)
+                    {
+                        if(grid[i][i].innerHTML == "X")
+                            {
+                                temp++;
+                            }
+                    }
+                    if(temp == Games[0].size-1)
+                        {
+                            for(let i = 0;i<Games[0].size;i++)
+                                {
+                                    if(Games[0].AIGrid[i][i] >= 0)
+                                        {
+                                            Games[0].AIGrid[i][i] += 25
+                                        }
+                                }
+                            
+                        }
+                    temp = 0
+                    for(let i = 0; i < Games[0].size; i++)
+                    {
+                        if(grid[i][Games[0].size - 1 - i].innerHTML == "X")
+                            {
+                                temp++;
+                            }
+                    }
+                    if(temp == Games[0].size-1)
+                        {
+                           for(let i = 0;i<Games[0].size;i++)
+                                {
+                                    if(Games[0].AIGrid[i][Games[0].size-1-i] >= 0)
+                                        {
+                                            Games[0].AIGrid[i][Games[0].size-1-i] += 25
+                                        }
+                                }
+                        }
+        },
         AITurn: () => 
         {
-            
+            Games[0].IsXWinning();
             let cells = document.querySelectorAll(".cell");
             let grid = [];
             for(let i = 0; i < Games[0].size; i++)
