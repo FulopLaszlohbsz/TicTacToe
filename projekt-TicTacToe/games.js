@@ -1,6 +1,7 @@
 const Games = 
 [
     {name: "TicTacToe", 
+    content: "Select the size, and the opponent you want to play against!",
     sideMenu:`
     <label>
     <input type="radio" name="sizebtn" value="5"></button>
@@ -120,9 +121,27 @@ const Games =
                         }
                 }
         },
-        Win: () =>
+        Win: (result) =>
         {
-            document.querySelector("section").innerHTML = "";
+            if(result == "X")
+                {
+                    document.querySelector("section").innerHTML = 
+                    `<div class="winText"><article>Game Over!<br>"X" Won!<br>${Games[0].content}</article></div>
+                    <div class="winText"><button onclick="Games[0].start()"> Play Again!</button></div>`;
+                }
+            else if(result == "O")
+               {
+                document.querySelector("section").innerHTML = 
+                    `<div class="winText"><article>Game Over!<br>"O" Won!<br>${Games[0].content}</article></div>
+                    <div class="winText"><button onclick="Games[0].start()"> Play Again!</button></div>`;
+               }
+            else
+               {
+                document.querySelector("section").innerHTML = 
+                    `<div class="winText"><article>Game Over!<br>It's a TIE!<br>${Games[0].content}</article></div>
+                    <div class="winText"><button onclick="Games[0].start()"> Play Again!</button></div>`;;
+               }
+            
         },
         CheckForWin: () => 
         {
@@ -158,15 +177,15 @@ const Games =
                         {
                             if(temp > 0)
                                 {
-                                    alert(`X Wins!`)
-                                    Games[0].Win();
+                                    //alert(`X Wins!`)
+                                    Games[0].Win("X");
                                     Games[0].GameOver = true;
                                     return;
                                 }
                             else
                                 {
-                                    alert(`O Wins!`)
-                                    Games[0].Win();
+                                    //alert(`O Wins!`)
+                                    Games[0].Win("O");
                                     Games[0].GameOver = true;
                                     return;
                                 }
@@ -188,15 +207,15 @@ const Games =
                         {
                             if(temp > 0)
                                 {
-                                    alert(`X Wins!`)
-                                    Games[0].Win();
+                                    //alert(`X Wins!`)
+                                    Games[0].Win("X");
                                     Games[0].GameOver = true;
                                     return;
                                 }
                             else
                                 {
-                                    alert(`O Wins!`)
-                                    Games[0].Win();
+                                    //alert(`O Wins!`)
+                                    Games[0].Win("O");
                                     Games[0].GameOver = true;
                                     return;
                                 }
@@ -219,15 +238,15 @@ const Games =
                         {
                             if(temp > 0)
                                 {
-                                    alert(`X Wins!`)
-                                    Games[0].Win();
+                                    //alert(`X Wins!`)
+                                    Games[0].Win("X");
                                     Games[0].GameOver = true;
                                     return;
                                 }
                             else
                                 {
-                                    alert(`O Wins!`)
-                                    Games[0].Win();
+                                    //alert(`O Wins!`)
+                                    Games[0].Win("O");
                                     Games[0].GameOver = true;
                                     return;
                                 }
@@ -248,15 +267,15 @@ const Games =
                         {
                             if(temp > 0)
                                 {
-                                    alert(`X Wins!`)
-                                    Games[0].Win();
+                                    //alert(`X Wins!`)
+                                    Games[0].Win("X");
                                     Games[0].GameOver = true;
                                     return;
                                 }
                             else
                                 {
-                                    alert(`O Wins!`)
-                                    Games[0].Win();
+                                    //alert(`O Wins!`)
+                                    Games[0].Win("O");
                                     Games[0].GameOver = true;
                                     return;
                                 }
@@ -264,14 +283,15 @@ const Games =
                 //Check Tie
                 if(Games[0].steps == Games[0].size * Games[0].size)
                 {
-                    alert("It's a Tie!")
-                    Games[0].Win();
+                    //alert("It's a Tie!")
+                    Games[0].Win("Tie");
                     Games[0].GameOver = true;
                     return;
                 }
         },
         AITurn: () => 
         {
+            
             let cells = document.querySelectorAll(".cell");
             let grid = [];
             for(let i = 0; i < Games[0].size; i++)
@@ -331,21 +351,51 @@ const Games =
                             Games[0].AIGrid[i][MatrixValue[1]]++
                         }
                 }
-            for(let i = 1; i < Games[0].size-1; i++)
+            let diag1 = false;
+            let diag2 = false;
+            //debugger
+            if(MatrixValue[0] == MatrixValue[1])
+                {
+                    diag1 = true;
+            for(let i = 0; i < Games[0].size; i++)
                     {
                         if(Games[0].AIGrid[i][i] >= 0)
                             {
                                 Games[0].AIGrid[i][i]++
                             }
-                        if(Games[0].AIGrid[i][Games[0].size-1 -i >= 0])
+                        
+                    }
+            }
+            //debugger
+            if(MatrixValue[0] + MatrixValue[1] == Games[0].size - 1)
+                {
+                    diag2 = true;
+                    for(let i = 0; i < Games[0].size; i++)
+                        {
+                            if(Games[0].AIGrid[i][Games[0].size-1 -i] >= 0)
                             {
                                 Games[0].AIGrid[i][Games[0].size-1 -i]++
                             }
-                    }
-            if(Games[0].size%2 !=1)
+                        }
+                }
+            //NEGATE CORNERS
+            if(diag1)
+                {
+                    Games[0].AIGrid[0][0]--
+                    Games[0].AIGrid[Games[0].size-1][Games[0].size-1]--
+                }
+            if(diag2)
+                {
+                    Games[0].AIGrid[0][Games[0].size-1]--
+                    Games[0].AIGrid[Games[0].size-1][0]--
+                }
+
+            //IF ITS THE MIDDLE
+            if((Games[0].size%2 !=1) && diag1 && diag2)
                 {
                     Games[0].AIGrid[Math.round(Games[0].size/2)][Math.round(Games[0].size/2)]--
                 }
+                //console.log(Games[0].AIGrid)
         }
     }
 ];

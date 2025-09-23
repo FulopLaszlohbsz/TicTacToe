@@ -117,7 +117,7 @@ section{
     background-color: #ff84e8;
     width: 100%;
     height: 100%;
-    
+    font-family: cursive;
     border: 1px solid #5a1a99;  
     font-size: 50px;
     cursor: pointer;
@@ -149,4 +149,48 @@ label:hover {
 }
 label:has(input[type="radio"]:checked) {
     background-color: #5a1a99;
+}
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: cursive;
+    color: #5a1a99;
+}
+.winText{
+    color: #5a1a99;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: cursive;
+    text-align: center;
+    align-content: center;
+}
+section:has(.winText){
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+.winText button{
+    width: 150px;
+    height: 40px;
+    border: none;
+    background-color: #7f2ccb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+.winText button:hover{
+    background-color: #5a1a99;
+}
+.winText button:active{
+    width: 140px;
+    height: 38px;
+    margin-bottom: 1px;
+    margin-top: 21px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
