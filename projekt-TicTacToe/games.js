@@ -121,7 +121,7 @@ const Games =
                         }
                 }
         },
-        Win: (result) =>
+    Win: (result) =>
         {
             if(result == "X")
                 {
@@ -143,7 +143,7 @@ const Games =
                }
             
         },
-        CheckForWin: () => 
+    CheckForWin: () => 
         {
             let cells = document.querySelectorAll(".cell");
             let grid = [];
@@ -289,7 +289,7 @@ const Games =
                     return;
                 }
         },
-        IsXWinning: () =>
+    IsXWinning: () =>
         {
             let cells = document.querySelectorAll(".cell");
             let grid = [];
@@ -388,7 +388,7 @@ const Games =
                                 }
                         }
         },
-        AITurn: () => 
+    AITurn: () => 
         {
             Games[0].IsXWinning();
             let cells = document.querySelectorAll(".cell");
@@ -431,7 +431,7 @@ const Games =
             Games[0].IncrementAxis(index[0]*Games[0].size + index[1])
             Games[0].CheckForWin()
         },
-        IncrementAxis: (index) => 
+    IncrementAxis: (index) => 
         {
             let MatrixValue = [];
             MatrixValue.push(parseInt((index-index%Games[0].size)/Games[0].size))
@@ -496,5 +496,15 @@ const Games =
                 }
                 //console.log(Games[0].AIGrid)
         }
+    },
+    {
+        name: ``,
+        content: ``,
+        sideMenu: ``,
+    },
+    {
+        name: ``,
+        content: ``,
+        sideMenu: ``,
     }
 ];
