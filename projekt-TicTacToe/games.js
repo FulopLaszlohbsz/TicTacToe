@@ -527,10 +527,19 @@ const Games =
                         }
                     
                 }
+                //EDGE CASE: Middle Tile TRICK
                 else
                     {
                         Games[0].AIGrid[1][1] = 0;
                         IsFirstIncrement = false
+                        if(index == 1 || index == 7)
+                            {
+                                Games[0].AIGrid[Games[0].size-1 - MatrixValue[0]][MatrixValue[1]] = 0
+                            }
+                        else
+                            {
+                                Games[0].AIGrid[MatrixValue[0]][Games[0].size-1 - MatrixValue[1]] = 0
+                            }
                     }
             
         }   
