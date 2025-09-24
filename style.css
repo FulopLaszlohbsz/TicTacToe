@@ -1,0 +1,196 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    display: grid;
+    grid-template-rows:1fr 1fr 10fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "header"
+        "nav"
+        "main"
+        "footer";
+}
+header{
+    grid-area: header;
+    background-color: #2a2d43;
+    color: thistle;
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+    font-family: cursive;
+    cursor: pointer;
+}
+nav{
+    grid-area: nav;
+    background-color: #7f2ccb;
+}
+main{
+    grid-area: main;
+}
+footer{
+    grid-area: footer;
+    background-color: #2a2d43;
+    color: thistle;
+    font-size: 20px;
+    text-align: right;
+    font-weight: bold;
+    font-family: cursive;
+}
+footer p{
+    margin-right: 20px;
+}
+aside{
+    grid-area: aside;
+    background-color: #ff84e8;
+}
+section{
+    grid-area: section;
+    background-color: #FFa9e7;
+}
+#main{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 7fr;
+    grid-template-areas: "aside section";
+}
+#side-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 5px;
+    padding: 5px;
+}
+#side-menu button{
+    width: 100%;
+    height: 30px;
+    border: none;
+    background-color: #7f2ccb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+#side-menu button:hover{
+    background-color: #5a1a99;
+}
+#side-menu button:active{
+    width: 95%;
+    height: 28px;
+    margin-bottom: 1px;
+    margin-top: 1px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+#nav-menu{
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    
+}
+#nav-menu button{
+    width: 1fr;
+    height: 1fr;
+    margin: 10px;
+    gap: 5px;  
+    border: none;
+    background-color: #421b6679;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+#nav-menu button:hover{
+    background-color: #0f041a79;
+}
+#nav-menu button:active{
+    width: 1fr;
+    height: 1fr;
+    margin: 15px;
+}
+.cell{
+    background-color: #ff84e8;
+    width: 100%;
+    height: 100%;
+    font-family: cursive;
+    border: 1px solid #5a1a99;  
+    font-size: 50px;
+    cursor: pointer;
+    border-radius: 5px;
+    align-content: center;
+    text-align: center;
+}
+input[type="radio"] {
+    display: none;
+}
+label {
+    width: 100%;
+    height: 30px;
+    border: none;
+    background-color: #7f2ccb;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    text-align: center;
+    align-content: center;
+}
+input[type="radio"]:checked + span {
+    background-color: #5a1a99;
+}
+label:hover {
+    background-color: #5a1a99;
+}
+label:has(input[type="radio"]:checked) {
+    background-color: #5a1a99;
+}
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: cursive;
+    color: #5a1a99;
+}
+.winText{
+    color: #5a1a99;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: cursive;
+    text-align: center;
+    align-content: center;
+}
+section:has(.winText){
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+.winText button{
+    width: 150px;
+    height: 40px;
+    border: none;
+    background-color: #7f2ccb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+.winText button:hover{
+    background-color: #5a1a99;
+}
+.winText button:active{
+    width: 140px;
+    height: 38px;
+    margin-bottom: 1px;
+    margin-top: 21px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
