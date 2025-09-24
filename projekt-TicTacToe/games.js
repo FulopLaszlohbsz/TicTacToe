@@ -30,9 +30,11 @@ const Games =
     AI: 0,
     AIGrid: [],
     GameOver: false,
+    IsFirstIncrement: true,
     start: () =>
         {
             Games[0].GameOver = false;
+            Games[0].IsFirstIncrement = true;
             Games[0].AIGrid = [];
             Games[0].AI = document.querySelector('input[name="AIOrPlayer"]:checked').value;
             const current = Games[0];
@@ -500,8 +502,9 @@ const Games =
                 //console.log(Games[0].AIGrid)
             //IF HE STARTS IN THE MIDDLE INCREMENT A CORNER
             let cells = document.querySelectorAll(".cell");
-            if(index == Math.floor(cells.length/2) && Games[0].size == 3 && cells[index].innerHTML == "X")
+            if(index == Math.floor(cells.length/2) && Games[0].size == 3 && cells[index].innerHTML == "X" && Games[0].IsFirstIncrement)
                 {
+                    Games[0].IsFirstIncrement = false;
                     //console.log("MIDDLE")
                     Games[0].AIGrid[0][0]+=20
                 }
