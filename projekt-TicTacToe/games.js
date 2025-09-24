@@ -31,10 +31,12 @@ const Games =
     AIGrid: [],
     GameOver: false,
     IsFirstIncrement: true,
+    IsSecondIncrement: true,
     start: () =>
         {
             Games[0].GameOver = false;
             Games[0].IsFirstIncrement = true;
+            Games[0].IsSecondIncrement = true;
             Games[0].AIGrid = [];
             Games[0].AI = document.querySelector('input[name="AIOrPlayer"]:checked').value;
             const current = Games[0];
@@ -119,9 +121,10 @@ const Games =
                         }
                     if(size == 3)
                         {
-                            Games[0].AIGrid[0][1]++
-                            Games[0].AIGrid[1][1]+=2
-                            Games[0].AIGrid[2][1]++
+                            //Games[0].AIGrid[0][1]++
+                            //Games[0].AIGrid[2][1]++
+                            //Games[0].AIGrid[1][1]+=2
+                            
                         }
                 }
         },
@@ -500,14 +503,35 @@ const Games =
                     Games[0].AIGrid[Math.round(Games[0].size/2)][Math.round(Games[0].size/2)]--
                 }
                 //console.log(Games[0].AIGrid)
-            //IF HE STARTS IN THE MIDDLE INCREMENT A CORNER
             let cells = document.querySelectorAll(".cell");
-            if(index == Math.floor(cells.length/2) && Games[0].size == 3 && cells[index].innerHTML == "X" && Games[0].IsFirstIncrement)
+            //IF HE STARTS IN CORNER INCREMENT MIDDLE
+            if(Games[0].size == 3 && (index == 0 || index ==2 ||index == 6 ||index == 8))
                 {
-                    Games[0].IsFirstIncrement = false;
-                    //console.log("MIDDLE")
-                    Games[0].AIGrid[0][0]+=20
+                    Games[0].AIGrid[1][1] += 2;
                 }
+            //IF HE STARTS IN THE MIDDLE INCREMENT A CORNER
+            
+            else if(index == Math.floor(cells.length/2))
+                {
+                    if(Games[0].size == 3 && cells[index].innerHTML == "X" && Games[0].IsFirstIncrement){
+                        Games[0].IsFirstIncrement = false;
+                        //console.log("MIDDLE")
+                        Games[0].AIGrid[0][0]+=20
+                    }
+                    
+                    else if(cells[index].innerHTML == "O" && Games[0].IsSecondIncrement)
+                        {
+                            Games[0].IsSecondIncrement = false;
+                            Games[0].AIGrid[0][1]++
+                            Games[0].AIGrid[2][1]++
+                        }
+                    
+                }
+                else
+                    {
+                        Games[0].AIGrid[1][1] = 0;
+                        IsFirstIncrement = false
+                    }
             
         }   
     },
