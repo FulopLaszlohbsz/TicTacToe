@@ -32,8 +32,12 @@ const Games =
     GameOver: false,
     IsFirstIncrement: true,
     IsSecondIncrement: true,
+    Cornerstart: false,
+    CornerstartIndexes: [],
     start: () =>
         {
+            Games[0].Cornerstart = false;
+            Games[0].CornerstartIndexes = []
             Games[0].GameOver = false;
             Games[0].IsFirstIncrement = true;
             Games[0].IsSecondIncrement = true;
@@ -504,11 +508,25 @@ const Games =
                 }
                 //console.log(Games[0].AIGrid)
             let cells = document.querySelectorAll(".cell");
-            //IF HE STARTS IN CORNER INCREMENT MIDDLE
-            if(Games[0].size == 3 && (index == 0 || index ==2 ||index == 6 ||index == 8))
+
+            //IF SECOND IS NOT THE CORNER AGAIN
+            if(Games[0].Cornerstart && Games[0].size == 3 && (cells[1].innerHTML == "X" || cells[3].innerHTML == "X" || cells[5].innerHTML == "X" || cells[7].innerHTML == "X"))
                 {
-                    Games[0].AIGrid[1][1] += 2;
+                    //console.log(Games[0].AIGrid)
+                    Games[0].Cornerstart = false;
+                    Games[0].AIGrid[Games[0].size -1 -Games[0].CornerstartIndexes[0]][Games[0].CornerstartIndexes[1]]+=2
+                    Games[0].AIGrid[Games[0].CornerstartIndexes[0]][ Games[0].size -1 -Games[0].CornerstartIndexes[1]]+=2
                 }
+
+            //IF HE STARTS IN CORNER INCREMENT MIDDLE
+            if(Games[0].size == 3 && (index == 0 || index ==2 ||index == 6 ||index == 8) && Games[0].IsFirstIncrement)
+                {
+                    Games[0].IsFirstIncrement = false
+                    Games[0].Cornerstart = true;
+                    Games[0].AIGrid[1][1] += 2;
+                    Games[0].CornerstartIndexes = [MatrixValue[0],MatrixValue[1]]
+                }
+
             //IF HE STARTS IN THE MIDDLE INCREMENT A CORNER
             
             else if(index == Math.floor(cells.length/2))
