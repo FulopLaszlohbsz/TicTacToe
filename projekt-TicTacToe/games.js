@@ -119,13 +119,13 @@ const Games =
                                 //console.log(row);
                             Games[0].AIGrid.push(row)
                         }
-                    if(size == 3)
-                        {
+                    //if(size == 3)
+                        //{
                             //Games[0].AIGrid[0][1]++
                             //Games[0].AIGrid[2][1]++
                             //Games[0].AIGrid[1][1]+=2
                             
-                        }
+                        //}
                 }
         },
     Win: (result) =>
