@@ -117,7 +117,9 @@ const Games =
                         }
                     if(size == 3)
                         {
-                            Games[0].AIGrid[1][1]++
+                            Games[0].AIGrid[0][1]++
+                            Games[0].AIGrid[1][1]+=2
+                            Games[0].AIGrid[2][1]++
                         }
                 }
         },
@@ -289,7 +291,7 @@ const Games =
                     return;
                 }
         },
-    IsXWinning: () =>
+    IsSymbolWinning: (symbol,amount) =>
         {
             let cells = document.querySelectorAll(".cell");
             let grid = [];
@@ -313,7 +315,7 @@ const Games =
                     let temp = 0
                     for(let j = 0; j < Games[0].size; j++)
                         {
-                            if(grid[i][j].innerHTML == "X")
+                            if(grid[i][j].innerHTML == symbol)
                             {
                                 temp++;
                             }
@@ -324,7 +326,7 @@ const Games =
                                 {
                                     if(Games[0].AIGrid[i][j]>=0)
                                         {
-                                            Games[0].AIGrid[i][j]+=25
+                                            Games[0].AIGrid[i][j]+=amount
                                         }
                                 }
                         }
@@ -332,7 +334,7 @@ const Games =
                     temp = 0
                     for(let j = 0; j < Games[0].size; j++)
                         {
-                            if(grid[j][i].innerHTML == "X")
+                            if(grid[j][i].innerHTML == symbol)
                                 {
                                     temp++;
                                 }
@@ -343,7 +345,7 @@ const Games =
                                 {
                                     if(Games[0].AIGrid[j][i] >= 0)
                                         {
-                                            Games[0].AIGrid[j][i]+=25
+                                            Games[0].AIGrid[j][i]+=amount
                                         }
                                 }
                         }
@@ -353,7 +355,7 @@ const Games =
                 let temp = 0
                     for(let i = 0; i < Games[0].size; i++)
                     {
-                        if(grid[i][i].innerHTML == "X")
+                        if(grid[i][i].innerHTML == symbol)
                             {
                                 temp++;
                             }
@@ -364,7 +366,7 @@ const Games =
                                 {
                                     if(Games[0].AIGrid[i][i] >= 0)
                                         {
-                                            Games[0].AIGrid[i][i] += 25
+                                            Games[0].AIGrid[i][i] += amount
                                         }
                                 }
                             
@@ -372,7 +374,7 @@ const Games =
                     temp = 0
                     for(let i = 0; i < Games[0].size; i++)
                     {
-                        if(grid[i][Games[0].size - 1 - i].innerHTML == "X")
+                        if(grid[i][Games[0].size - 1 - i].innerHTML == symbol)
                             {
                                 temp++;
                             }
@@ -383,14 +385,15 @@ const Games =
                                 {
                                     if(Games[0].AIGrid[i][Games[0].size-1-i] >= 0)
                                         {
-                                            Games[0].AIGrid[i][Games[0].size-1-i] += 25
+                                            Games[0].AIGrid[i][Games[0].size-1-i] += amount
                                         }
                                 }
                         }
         },
     AITurn: () => 
         {
-            Games[0].IsXWinning();
+            Games[0].IsSymbolWinning("O",50)
+            Games[0].IsSymbolWinning("X",25);
             let cells = document.querySelectorAll(".cell");
             let grid = [];
             for(let i = 0; i < Games[0].size; i++)
@@ -495,7 +498,15 @@ const Games =
                     Games[0].AIGrid[Math.round(Games[0].size/2)][Math.round(Games[0].size/2)]--
                 }
                 //console.log(Games[0].AIGrid)
-        }
+            //IF HE STARTS IN THE MIDDLE INCREMENT A CORNER
+            let cells = document.querySelectorAll(".cell");
+            if(index == Math.floor(cells.length/2) && Games[0].size == 3 && cells[index].innerHTML == "X")
+                {
+                    //console.log("MIDDLE")
+                    Games[0].AIGrid[0][0]+=20
+                }
+            
+        }   
     },
     {
         name: ``,
