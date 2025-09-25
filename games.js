@@ -33,11 +33,13 @@ const Games =
     IsFirstIncrement: true,
     IsSecondIncrement: true,
     Cornerstart: false,
-    CornerstartIndexes: [],
+    TempIndexes: [],
+    MiddleStart: false,
     start: () =>
         {
             Games[0].Cornerstart = false;
-            Games[0].CornerstartIndexes = []
+            Games[0].MiddleStart = false;
+            Games[0].TempIndexes = []
             Games[0].GameOver = false;
             Games[0].IsFirstIncrement = true;
             Games[0].IsSecondIncrement = true;
@@ -508,6 +510,22 @@ const Games =
                 }
                 //console.log(Games[0].AIGrid)
             let cells = document.querySelectorAll(".cell");
+            //IF MIDDLE TRICK CHECK
+            if(Games[0].MiddleStart && cells[index].innerHTML == "X")
+                {
+                    //console.log("IT FIRED")
+                    Games[0].MiddleStart = false;
+                    if(Games[0].TempIndexes[0] == -1)
+                        {
+                            Games[0].AIGrid[MatrixValue[0]][Games[0].TempIndexes[1]]+=10
+                            Games[0].AIGrid[Games[0].size-1-MatrixValue[0]][Games[0].size-1-Games[0].TempIndexes[1]] = 0
+                        }
+                        else
+                       {
+                            Games[0].AIGrid[Games[0].TempIndexes[0]][MatrixValue[1]]+=10
+                            Games[0].AIGrid[Games[0].size-1-Games[0].TempIndexes[0]][Games[0].size-1-MatrixValue[1]] = 0
+                        }
+                }
 
             //IF SECOND IS NOT THE CORNER AGAIN
             
@@ -515,8 +533,8 @@ const Games =
                 {
                     //console.log(Games[0].AIGrid)
                     Games[0].Cornerstart = false;
-                    Games[0].AIGrid[Games[0].size -1 -Games[0].CornerstartIndexes[0]][Games[0].CornerstartIndexes[1]]+=2
-                    Games[0].AIGrid[Games[0].CornerstartIndexes[0]][ Games[0].size -1 -Games[0].CornerstartIndexes[1]]+=2
+                    Games[0].AIGrid[Games[0].size -1 -Games[0].TempIndexes[0]][Games[0].TempIndexes[1]]+=3
+                    Games[0].AIGrid[Games[0].TempIndexes[0]][ Games[0].size -1 -Games[0].TempIndexes[1]]+=3
                 }
 
             //IF HE STARTS IN CORNER INCREMENT MIDDLE
@@ -525,7 +543,7 @@ const Games =
                     Games[0].IsFirstIncrement = false
                     Games[0].Cornerstart = true;
                     Games[0].AIGrid[1][1] += 2;
-                    Games[0].CornerstartIndexes = [MatrixValue[0],MatrixValue[1]]
+                    Games[0].TempIndexes = [MatrixValue[0],MatrixValue[1]]
                 }
 
             //IF HE STARTS IN THE MIDDLE INCREMENT A CORNER
@@ -548,19 +566,25 @@ const Games =
                 }
                 //EDGE CASE: Middle Tile TRICK
                 //SHOULD PRIOR THE FORK CORNER
-                else
+            else if(Games[0].IsFirstIncrement)
                     {
                         Games[0].AIGrid[1][1] = 2;
-                        IsFirstIncrement = false
+                        Games[0].IsFirstIncrement = false
+                        Games[0].MiddleStart = true
                         if(index == 1 || index == 7)
                             {
                                 Games[0].AIGrid[Games[0].size-1 - MatrixValue[0]][MatrixValue[1]] = 0
+                                Games[0].TempIndexes = [MatrixValue[0],-1]
                             }
                         else
                             {
                                 Games[0].AIGrid[MatrixValue[0]][Games[0].size-1 - MatrixValue[1]] = 0
+                                Games[0].TempIndexes = [-1,MatrixValue[1]]
                             }
+                        
                     }
+                
+                    
         }   
     },
     {
