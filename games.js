@@ -510,6 +510,7 @@ const Games =
             let cells = document.querySelectorAll(".cell");
 
             //IF SECOND IS NOT THE CORNER AGAIN
+            
             if(Games[0].Cornerstart && Games[0].size == 3 && (cells[1].innerHTML == "X" || cells[3].innerHTML == "X" || cells[5].innerHTML == "X" || cells[7].innerHTML == "X"))
                 {
                     //console.log(Games[0].AIGrid)
@@ -546,9 +547,10 @@ const Games =
                     
                 }
                 //EDGE CASE: Middle Tile TRICK
+                //SHOULD PRIOR THE FORK CORNER
                 else
                     {
-                        Games[0].AIGrid[1][1] = 0;
+                        Games[0].AIGrid[1][1] = 2;
                         IsFirstIncrement = false
                         if(index == 1 || index == 7)
                             {
@@ -559,7 +561,6 @@ const Games =
                                 Games[0].AIGrid[MatrixValue[0]][Games[0].size-1 - MatrixValue[1]] = 0
                             }
                     }
-            
         }   
     },
     {
